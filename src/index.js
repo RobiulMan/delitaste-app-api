@@ -3,14 +3,16 @@ const cors = require('cors')
 const path = require('path')
 const morgan = require('morgan')
 const dbConnection = require('./config/db.js');
-
-
+const apiDoc = require('./doc/doc-config')
 
 const app = express()
 const PORT = 3010;
 
 // Mongodb connection
 dbConnection();
+
+// Swagger Connection
+apiDoc(app)
 
 app.use(morgan('dev'))
 app.use(cors());
@@ -23,7 +25,6 @@ app.get('/', (req, res) => {
         hello: 'world'
     })
 })
-
 
 app.use((req, res, next) => {
     const error = new Error('404 Page Not Found');
